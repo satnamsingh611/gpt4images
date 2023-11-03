@@ -23,7 +23,7 @@ export default function Home(props) {
   return (
     <>
   
-      {modalOpen && <Login modalOpen={modalOpen} setModalOpen={setModalOpen} />}
+      {/* ///{modalOpen && <Login modalOpen={modalOpen} setModalOpen={setModalOpen} />}/// */}
       <ChatView {...props} />
     </>
   );

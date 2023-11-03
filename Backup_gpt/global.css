@@ -12,12 +12,26 @@
 }
 
 @layer components {
+  /* SideBar */
   .sidebar {
-    @apply flex flex-col gap-y-4 h-screen bg-dark-grey p-2 pt-4 relative duration-300;
+    /* @apply flex flex-col gap-y-4 h-screen bg-dark-grey p-2 pt-4 relative duration-300; */
+    @apply 
+ sm:z-10 sm:bg-black
+    flex flex-row gap-y-4 p-2 h-[57px]  relative duration-300;
+  
+  }
+  .sidebar_width{
+    @apply absolute z-10 w-[250px]   sm:z-10 sm:h-[100vh]
   }
 
+span.nav__item {
+  @apply z-10 text-white
+
+}
+
   .sidebar__app-bar {
-    @apply flex gap-4 items-center;
+    /* @apply flex justify-center gap-4 items-center; */
+    @apply flex justify-start gap-4 ;
   }
 
   .sidebar__app-title {
@@ -29,7 +43,7 @@
   }
 
   .sidebar__btn-icon {
-    @apply w-8 h-8;
+    @apply  w-8  ;
   }
 
   .sidebar__app-logo {
@@ -37,30 +51,23 @@
   }
 
   /* SideBar Nav */
- 
   .nav {
-    @apply bg-[#575960] w-[130px] ml-[5px]    overflow-hidden shadow-[0px_1px_6px_white] rounded-[9px] leading-[34px];
-  }
-  h1{
-    @apply transition-[0.80s];
-  }
-  .nav h1:hover {
-    @apply text-white   !important;
-    background: #3c3f3f;
-   
-    
-  }
-  .nav__item {
-    @apply px-4 py-3 flex items-center gap-x-4 w-screen 
-    rounded-md cursor-pointer 
-    text-white text-base;
+    @apply flex justify-start  
   }
 
-  .subscribe_btn{
-    @apply float-right rounded py-[5px] px-[10px]  bg-[#2563eb] text-white;
+  .nav__item {
+    /* @apply px-4 py-3 flex items-center gap-x-4 w-screen
+    rounded-md cursor-pointer
+    hover:bg-light-white
+    text-white text-base; */
+    @apply px-4 py-3 flex items-center gap-x-4 rounded-md cursor-pointer  hover:bg-light-white text-white text-base;
+    
+   
+   
   }
-  .login_btn{
-    @apply float-right  rounded px-5 py-2 bg-[#2563eb] text-white ;
+
+  .dropdown-list{
+    @apply  sm:shadow-none px-[1rem] absolute top-[43px] bg-white rounded-[5px] leading-[50px] shadow-md left-0;
   }
 
   .nav__icons {
@@ -69,7 +76,8 @@
   }
 
   .nav__bottom {
-    @apply flex flex-col justify-end h-screen;
+    @apply  flex-col justify-end absolute top-[2px] right-3 sm:bottom-1 ;
+    /* @apply flex flex-col justify-end h-screen; */
   }
 
   .nav__msg {
@@ -79,7 +87,14 @@
   .nav__p {
     @apply font-mono;
   }
+  .nav_createbtn{
+    @apply  w-[74px] p-[9px] text-center rounded-[10px] mr-3 sm:text-[15px]   text-white;
+  }
+  .active-nav{
+    @apply  text-[white] w-[74px] p-[9px] text-center  underline;
+  }
   
+ 
 
   
   /* CHATVIEW */

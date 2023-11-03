@@ -1,9 +1,6 @@
 "use client"
 import useDarkMode from './hook/useDarkMode';
-
-import {BiSun} from 'react-icons/bi'
-import {BsMoon} from 'react-icons/bs'
-// import { MdOutlineNightlight, MdOutlineWbSunny } from 'react-icons/md';
+import { MdOutlineNightlight, MdOutlineWbSunny } from 'react-icons/md';
 
 /**
  * A toggle for switching between light and dark modes.
@@ -11,7 +8,7 @@ import {BsMoon} from 'react-icons/bs'
  * @param {Object} props - The properties for the component.
  * @param {boolean} props.open - Whether the sidebar is open or not.
  */
-const DarkMode = () => {
+const DarkMode = (props) => {
   const [darkTheme, setDarkTheme] = useDarkMode();
 
   /**
@@ -19,22 +16,21 @@ const DarkMode = () => {
    */
   const handleMode = () => setDarkTheme(!darkTheme);
   return (
-    <div className="nav">
-      <span className="nav__item" onClick={handleMode}>
+    <div className="darkNav">
+      <span className="nav__item  relative  z-[1] w-[52px]" onClick={handleMode}>
         {darkTheme ? (
           <>
-            <div className="nav__icons flex pt-[7px]">
-            <BsMoon style={{fontSize:"15px"}}></BsMoon>
+            <div className="nav__icons">
+              <MdOutlineWbSunny />
             </div>
-            {/* <h1 className={`${!props.open && "hidden"}`}>Light mode</h1> */}
+            <h1 className={`${!props.open && "hidden"}`}>Light</h1>
           </>
         ) : (
           <>
-            <div className="nav__icons flex pt-[7px]">
-            
-            <BiSun style={{fontSize:"20px"}}></BiSun>
+            <div className="nav__icons">
+              <MdOutlineNightlight />
             </div>
-            {/* <h1 className={`${!props.open && "hidden"}`}>Night mode</h1> */}
+            <h1 className={`${!props.open && "hidden"}`}>Night</h1>
           </>
         )}
 

@@ -1,19 +1,17 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
+"use client"
+import React, { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
 import Link from "next/link";
-import {FaBars} from 'react-icons/fa'
-// import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
-// import bot from '../assets/bot.ico';
 import DarkMode from "../DarkMode";
+import { MdClose, MdMenu } from "react-icons/md";
+import { BiChevronRight } from "react-icons/bi";
 import Setting from "../Setting";
 import Modal from "../Modal";
 
-import TopbarBtns from "../NewComponents/TopbarBtns/TopbarBtns";
-
 const menyLinkStyle = {
-  color: "rgb(85 26 139) ",
-  textDecoration: "underline rgb(85 26 139)",
+  color: "rgb(255 255 255)",
+  borderBottom: "1px solid",
+  paddingTop: " 4px",
 };
 
 /**
@@ -22,41 +20,13 @@ const menyLinkStyle = {
  *
  * @param {Object} props - The properties for the component.
  */
-const NavBar = () => {
+const SideBar = () => {
   const [open, setOpen] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false);
-  const [isOpenChat, setisOpenChat] = useState(false); //topic top bar button
+  const [modalOpen, setModalOpen] = useState(false);
 
-
-  const servicesMenus = () => {
-    setOpen(!open);
-    setisOpenChat(false);
-
-    // setisOpenShare(false);
-  };
-
-
-
-function useOutsideNav(ref) {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target) ) {
-        
-       setOpen(false)
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-}
-
-const wrapperRef = useRef(null);
-useOutsideNav(wrapperRef);
-
+  /* navigate **/
+  // const navigate=useNavigate()
+  /** */
 
   function handleResize() {
     window.innerWidth <= 720 ? setOpen(false) : setOpen(true);
@@ -70,22 +40,34 @@ useOutsideNav(wrapperRef);
     };
   }, []);
 
+  const newLocal = <DarkMode open={open} />;
 
-  
+  const userData = window.localStorage.getItem("userData");
+  const userVerifedData = window.localStorage.getItem("user");
+  const userEmail = JSON.parse(userData);
+  const userStatus = JSON.parse(userVerifedData);
+  console.log(userStatus)
 
-  const newLocal = (
-    <div className={`nav__bottom `}>
-      <DarkMode open={open} />
-    </div>
-  );
+  console.log(userEmail, "hhh")
+  const LoginBtn = () => {
+    //  if(!userEmail){
+    //   navigate('/login')
+    //  }else{
+    //   localStorage.removeItem("userData")
+    //   localStorage.removeItem("userToken")
+    //   navigate('/login')
+    //  }
+  }
+
+
+
   return (
     <>
       <section
-        className={` ${
-          open ? " w-full" : "w-full h-[57px]  sm:text-black"
-        } sidebar  bg-[#060b49] h-[57px] `}
+        className={` px-0 py-[8px] ${open ? " w-full " : "w-full h-[57px] sm:bg-black  sm:text-black"
+          } sidebar  bg-black h-[57px] `}
       >
-        <div className="sidebar__app-bar items-center">
+        <div className="sidebar__app-bar items-center justify-between">
           {/* <div className={`sidebar__app-logo ${!open && 'scale-0 hidden'} sm-min:hidden`}>
             <span className='w-8 h-8'>
               <img src={bot} alt='' />
@@ -95,74 +77,83 @@ useOutsideNav(wrapperRef);
           {/* <h1 className={`sidebar__app-title ${!open && 'scale-0 hidden'} object-none sm-min:hidden `}>
             AI42 Chat
           </h1>  */}
-          <div className={` rounded  sidebar__btn-close`} onClick={servicesMenus}>
-            
-              <FaBars
-                className=" sidebar__btn-icon"
-                style={{ fontSize: "25px" }}
-             
-              ></FaBars>
-           
-          </div>
+          <div className={`sidebar__btn-close w-[50%] pl-[10px] flex items-center`}>
+            <div className="fabars_button w-[50%]">
 
-          <TopbarBtns
-            isOpenChat={isOpenChat}
-            setisOpenChat={setisOpenChat}
-            setOpen={setOpen}
-          />
+            <span onClick={() => setOpen(!open)}>
+              {!open ? (
+                <MdMenu
+                  className="sidebar__btn-icon"
+                  style={{ fontSize: "25px" }}
+                ></MdMenu>
+              ) : (
+                <MdClose
+                  className="sidebar__btn-icon"
+                  style={{ fontSize: "25px" }}
+                ></MdClose>
+              )}
+            </span>
+            </div>
+            <div className="menu_button ml-3 w-[50%] flex">
+            <button className="mr-5 " >Create</button>
+            <button className="  ">Find</button>
+          </div>
+          </div>
+          
+         
+
+
+          <div className="pr-[30px] flex gap-[2rem]">
+            <button className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={() => navigate('/subscribe')}>Subscribe</button>
+            <button className="login_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={LoginBtn}>{!userEmail ? "Login" : "Logout"}</button>
+          </div>
         </div>
 
-        <div className="nav z-10" ref={wrapperRef}>
-          <ul className="  dropdown-list ">
+        <div className="nav z-10 absolute top-[58px] ">
+          <ul
+            className="  dropdown-list  font-Rubik duration-200"
+            style={{ height: !open ? "0" : "122px" }}
+          >
             <li>
-              <Link onClick={() => setOpen(false)} href="/" prefetch={false}>
+              <Link href='/'>
                 <h1
-                  className={` sm:underline ${
-                    !open && "hidden"
-                  } underline text-black `}
+                  className={`pl-2  ${!open && "hidden"
+                    }  text-black `}
                   style={menyLinkStyle}
                 >
-                  App
+                  Main page  <span >{<BiChevronRight className="w-[25px]" style={{ display: "inherit" }} />}</span>
                 </h1>
               </Link>
             </li>
             <li>
-              <Link onClick={() => setOpen(false)} href="/Pay" prefetch={false}>
+              <Link href='/find'>
                 <h1
-                  className={` sm:underline ${
-                    !open && "hidden "
-                  } underline text-black`}
+                  className={`pl-2  ${!open && "hidden "
+                    }  text-black`}
                   style={menyLinkStyle}
                 >
-                  Pay
+                  Payment <span  >{<BiChevronRight className="w-[45px]" style={{ display: "inherit" }} />}</span>
                 </h1>
-              </Link>
+              </Link >
             </li>
             <li>
-              <Link onClick={() => setOpen(false)} href="https://ai42.app/#/" prefetch={false}>
-                <h1
-                  className={` sm:underline ${
-                    !open && "hidden"
-                  } underline  text-black`}
-                  style={menyLinkStyle}
-                >
-                  AI42
-                </h1>
-              </Link>
+              <h1 className="flex items-center cursor-pointer text-white">
+                {newLocal}
+              </h1>
             </li>
-            
           </ul>
         </div>
 
-      {newLocal}
-        <Modal title='Setting' modalOpen={modalOpen} setModalOpen={setModalOpen}> 
-        <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        <Modal
+          title="Setting"
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+        >
+          <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
         </Modal>
       </section>
-     
     </>
   );
 };
 
-export default NavBar;
-
+export default SideBar;
