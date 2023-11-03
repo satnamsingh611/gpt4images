@@ -42,13 +42,11 @@ const SideBar = () => {
 
   const newLocal = <DarkMode open={open} />;
 
-  const userData = window.localStorage.getItem("userData");
-  const userVerifedData = window.localStorage.getItem("user");
-  const userEmail = JSON.parse(userData);
-  const userStatus = JSON.parse(userVerifedData);
-  console.log(userStatus)
 
-  console.log(userEmail, "hhh")
+
+
+
+
   const LoginBtn = () => {
     //  if(!userEmail){
     //   navigate('/login')
@@ -104,8 +102,8 @@ const SideBar = () => {
 
 
           <div className="pr-[30px] flex gap-[2rem]">
-            <button className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={() => navigate('/subscribe')}>Subscribe</button>
-            <button className="login_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={LoginBtn}>{!userEmail ? "Login" : "Logout"}</button>
+            <button className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] ">Subscribe</button>
+            <button className="login_btn hover:bg-[#417cfb] transition-[0.25s] " >Logout</button>
           </div>
         </div>
 
