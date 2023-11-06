@@ -9,7 +9,7 @@ import { ChatContextProvider } from "@/Components/Contex/ChatContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata = { 
   title: "ImageApp",
   name: "description",
   content: "Web site created using create-react-app",
