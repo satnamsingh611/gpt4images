@@ -54,8 +54,8 @@ const ImageComp = ({ url, selected, Time }) => {
         />
       </div>
       <div className="flex justify-between items-center w-[100%] p-1 ml-1 bg-[#c8d0db] text-black">
-        <span>{selected}</span>
-        <span>Time at {Time}</span>
+        <span className="font-semibold">{selected}</span>
+        <span className="font-semibold">Time at {Time}</span>
         <div className="TwitterShareButton ">
           <TwitterShareButton title="Check out this image" url={url}>
             <TwitterIcon size={32} round className="pr-1 pt-1" />

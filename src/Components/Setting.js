@@ -8,7 +8,7 @@ const Setting = ({ modalOpen, setModalOpen }) => {
 
   const saveKey = async (e) => {
     e.preventDefault();
-    // setLoading(true);
+    setLoading(true);
     setErrorMsg("");
     const keys = input;
 
@@ -16,7 +16,7 @@ const Setting = ({ modalOpen, setModalOpen }) => {
       await checkApiKey(keys);
       window.localStorage.setItem("api-key", keys);
       console.log("works");
-      // setModalOpen(false);
+      setModalOpen(false);
     } catch (error) {
       console.log("doesnt work");
       setErrorMsg("error: incorrect keys");
@@ -38,9 +38,9 @@ const Setting = ({ modalOpen, setModalOpen }) => {
 
   return (
     <>
-      <form onSubmit={saveKey} className="flex flex-col items-center justify-center gap-2">
+      <form onSubmit={saveKey} className="flex flex-col items-center justify-center gap-2" suppressHydrationWarning={true}>
 
-        <p className="text-lg font-semibold"  >Use your own API-key.</p>
+        <p  className="text-lg font-semibold"  >Use your own API-key.</p>
         <span  >Keys are saved in your own browser</span> 
 
          <div className="italic">
@@ -61,7 +61,7 @@ const Setting = ({ modalOpen, setModalOpen }) => {
           type="password"
           className="w-full max-w-xs input input-bordered"
         />
-        <button disabled={loading} type="submit" className="w-full max-w-xs btn btn-outline" suppressHydrationWarning>
+        <button disabled={loading} type="submit" className="w-full max-w-xs btn btn-outline" suppressHydrationWarning={true}>
           {loading ? (
             <span className="w-56 progress progress-info" />
           ) : (
