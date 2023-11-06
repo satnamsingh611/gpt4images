@@ -8,7 +8,7 @@ const Setting = ({ modalOpen, setModalOpen }) => {
 
   const saveKey = async (e) => {
     e.preventDefault();
-    // setLoading(true);
+    setLoading(true);
     setErrorMsg("");
     const keys = input;
 
@@ -16,7 +16,7 @@ const Setting = ({ modalOpen, setModalOpen }) => {
       await checkApiKey(keys);
       window.localStorage.setItem("api-key", keys);
       console.log("works");
-      // setModalOpen(false);
+      setModalOpen(false);
     } catch (error) {
       console.log("doesnt work");
       setErrorMsg("error: incorrect keys");
@@ -38,30 +38,35 @@ const Setting = ({ modalOpen, setModalOpen }) => {
 
   return (
     <>
-      <form onSubmit={saveKey} className="flex flex-col items-center justify-center gap-2">
-
-        <p className="text-lg font-semibold"  >Use your own API-key.</p>
-        <span  >Keys are saved in your own browser</span> 
-
-         <div className="italic">
-          Get OpenAI API key{" "}
-          <a
-            className="text-blue-600"
-            rel="noreferrer"
-            target="_blank"
-            href="https://platform.openai.com/account/api-keys"
-          >
-            here
-          </a>
-          .
-        </div> 
+      <div>
+        {" "}
+        <p className="text-lg font-semibold">Use your own API-key.</p>
+        <p>keys are saved in your own browser</p>
+      </div>
+      <div className="italic">
+        Get OpenAI API key{" "}
+        <a
+          className="text-blue-600"
+          rel="noreferrer"
+          target="_blank"
+          href="https://platform.openai.com/account/api-keys"
+        >
+          here
+        </a>
+        .
+      </div>
+      <div
+        onSubmit={saveKey}
+        className="flex flex-col items-center justify-center gap-2"
+        suppressHydrationWarning={true}
+      >
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           type="password"
           className="w-full max-w-xs input input-bordered"
         />
-        <button disabled={loading} type="submit" className="w-full max-w-xs btn btn-outline" suppressHydrationWarning>
+        <button disabled={loading} className="w-full max-w-xs btn btn-outline">
           {loading ? (
             <span className="w-56 progress progress-info" />
           ) : (
@@ -77,9 +82,8 @@ const Setting = ({ modalOpen, setModalOpen }) => {
             remove keys
           </span>
         )}
-      </form>
-    <p>{errorMsg}</p>
-
+      </div>
+      <p>{errorMsg}</p>
     </>
   );
 };

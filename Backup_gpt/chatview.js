@@ -20,7 +20,7 @@ const ChatView = () => {
   const inputRef = useRef();
   const [formValue, setFormValue] = useState("");
   const [thinking, setThinking] = useState(false);
-  const options = "OpenJourney";
+  const options = ["OpenJourney"];
   // const [selected, setSelected] = useState(options[0]);
   const [messages, addMessage] = useContext(ChatContext);
   const [aiData, setAiData] = useState();
@@ -127,7 +127,7 @@ const ChatView = () => {
       Time: new Date().toLocaleTimeString(),
       text: newValue,
       ai: ai,
-      selected: options,
+      selected: `${selected}`,
     };
 
     addMessage(newMsg);
@@ -144,7 +144,7 @@ const ChatView = () => {
       : formValue;
 
     const newMsg = cleanPrompt;
-    const aiModel = options;
+    const aiModel = selected;
 
     setThinking(true);
     setFormValue("");

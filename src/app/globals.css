@@ -80,6 +80,13 @@
     @apply font-mono;
   }
   
+  .GPT_menus {
+    @apply px-2.5 py-[10px] rounded-[5px];
+    background: #808080b8;
+  }
+  .GPT_menus:hover{
+    @apply bg-gray-400
+  }
 
   
   /* CHATVIEW */
@@ -89,6 +96,9 @@
     @apply shadow-[0_20px_120px_0_rgba(65,79,85,0.2),0_25px_30px_-15px_rgba(65,79,85,0.5)] flex items-center justify-center gap-[50px] flex-col min-h-[50vh]  p-5 rounded-xl;
     background: white;
   } */
+  .OJ_button{
+    @apply flex items-center border-slate-400 font-semibold text-slate-700 mr-0.5 p-0.5 rounded-[10px] border-2 border-solid;
+  }
   .browser-inner {
     @apply shadow-[0_20px_120px_0_rgba(65,79,85,0.2),0_25px_30px_-15px_rgba(65,79,85,0.5)]  p-5 rounded-xl;
     background: white;

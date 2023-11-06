@@ -1,11 +1,14 @@
 "use client"
 import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import DarkMode from "../DarkMode";
 import { MdClose, MdMenu } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
-import Setting from "../Setting";
+// import Setting from "../Setting";
+
+const Setting = dynamic(() => import("../Setting"), { ssr: false })
 import Modal from "../Modal";
 
 const menyLinkStyle = {
@@ -66,19 +69,10 @@ const SideBar = () => {
           } sidebar  bg-black h-[57px] `}
       >
         <div className="sidebar__app-bar items-center justify-between">
-          {/* <div className={`sidebar__app-logo ${!open && 'scale-0 hidden'} sm-min:hidden`}>
-            <span className='w-8 h-8'>
-              <img src={bot} alt='' />
-            </span>
+          <div className={`sidebar__btn-close  pl-[10px] flex items-center`}>
+            <div className="fabars_button ">
 
-          </div>  */}
-          {/* <h1 className={`sidebar__app-title ${!open && 'scale-0 hidden'} object-none sm-min:hidden `}>
-            AI42 Chat
-          </h1>  */}
-          <div className={`sidebar__btn-close w-[50%] pl-[10px] flex items-center`}>
-            <div className="fabars_button w-[50%]">
-
-            <span onClick={() => setOpen(!open)}>
+             <span onClick={() => setOpen(!open)}>
               {!open ? (
                 <MdMenu
                   className="sidebar__btn-icon"
@@ -90,11 +84,11 @@ const SideBar = () => {
                   style={{ fontSize: "25px" }}
                 ></MdClose>
               )}
-            </span>
+            </span> 
             </div>
-            <div className="menu_button ml-3 w-[50%] flex">
-            <button className="mr-5 " >Create</button>
-            <button className="  ">Find</button>
+            <div className="menu_button ml-[50px] flex ">
+            <button className="GPT_menus mr-5 " >Create</button>
+            <button className=" GPT_menus px-[20px] ">Find</button>
           </div>
           </div>
           
@@ -147,7 +141,7 @@ const SideBar = () => {
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
         >
-          <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
+          <Setting />
         </Modal>
       </section>
     </>
