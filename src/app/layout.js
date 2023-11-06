@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = { 
   title: "ImageApp",
-  name: "description",
+  name: "descrisdfption",
   content: "Web site created using create-react-app",
 };
 
