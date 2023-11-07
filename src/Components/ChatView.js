@@ -47,57 +47,59 @@ const ChatView = () => {
     }
   };
 
-  const postaidata = async (data) => {
-    try {
-      let responce = await axios.post(process.env.Get_Images_OJ + `users`, {
-        id: data.id,
-        text: data.text,
-        createdAt: data.createdAt,
-        ai: data.ai,
-        value: data.value,
-        title: data.value,
-        selected: data.selected,
-      });
-      let res = await responce;
-      console.log("res", res);
 
-      return res;
-    } catch {
-      return null;
-    }
-  };
+  // ----no need-----//
+  // const postaidata = async (data) => {
+  //   try {
+  //     let responce = await axios.post(process.env.Get_Images_OJ + `users`, {
+  //       id: data.id,
+  //       text: data.text,
+  //       createdAt: data.createdAt,
+  //       ai: data.ai,
+  //       value: data.value,
+  //       title: data.value,
+  //       selected: data.selected,
+  //     });
+  //     let res = await responce;
+  //     console.log("res", res);
+
+  //     return res;
+  //   } catch {
+  //     return null;
+  //   }
+  // };
 
   // shorting like date API
 
   useEffect(() => {}, []);
 
   /// like value increase
-  const Saveimage = async () => {
-    let createdDate = new Date().toLocaleString();
+  // const Saveimage = async () => {
+  //   let createdDate = new Date().toLocaleString();
 
-    try {
-      if (!aiData.text) {
-        alert("data not found from server");
-      }
-      if (typeof window !== "undefind") {
-        let email = window.localStorage.getItem("userData"); //get user email id from localstorage
-        let UserEmail = JSON.parse(email); // jsonparse
-        const ImageSaveapi = await axios.post(
-          process.env.Get_Images_OJ + "saveImages",
-          {
-            link_to_image: aiData.text,
-            creator: UserEmail.email,
-            keywords: aiData.value,
-            date: createdDate,
-            likes: 0,
-          }
-        );
-        console.log("ImageSaveapi", ImageSaveapi);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  //   try {
+  //     if (!aiData.text) {
+  //       alert("data not found from server");
+  //     }
+  //     if (typeof window !== "undefind") {
+  //       let email = window.localStorage.getItem("userData"); //get user email id from localstorage
+  //       let UserEmail = JSON.parse(email); // jsonparse
+  //       const ImageSaveapi = await axios.post(
+  //         process.env.Get_Images_OJ + "saveImages",
+  //         {
+  //           link_to_image: aiData.text,
+  //           creator: UserEmail.email,
+  //           keywords: aiData.value,
+  //           date: createdDate,
+  //           likes: 0,
+  //         }
+  //       );
+  //       console.log("ImageSaveapi", ImageSaveapi);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   // useEffect(() => {
   //   var selectedbtn = "";
@@ -178,7 +180,7 @@ const ChatView = () => {
   //======================================================
 
   return (
-    <div className="  chatview " style={{ height: "calc(100vh - 56px)" }}>
+    <div className=" chatview " style={{ height: "calc(100vh - 56px)" }}>
       <main className="chatview__chatarea">
         {messages.map((message, index) => {
           return (
@@ -195,7 +197,7 @@ const ChatView = () => {
         <span ref={messagesEndRef}></span>
       </main>
       <form className="form" onSubmit={sendMessage}>
-      <p className="OJ_button">OpenJourney</p>
+      <p className="OJ_button dark:text-gray-400">OpenJourney</p>
 
         <div className="flex items-stretch justify-between w-full">
           <textarea

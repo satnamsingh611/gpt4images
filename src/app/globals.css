@@ -82,10 +82,10 @@
   
   .GPT_menus {
     @apply px-2.5 py-[10px] rounded-[5px];
-    background: #808080b8;
+   
   }
   .GPT_menus:hover{
-    @apply bg-gray-400
+    @apply bg-gray-400 !important;
   }
 
   
@@ -105,7 +105,29 @@
   }
 
 
+/* Magic Login*/
 
+.login_page {
+  @apply fixed w-full h-full z-[99] inset-0;
+  background: #525252cc;
+}
+
+.login_input {
+  @apply bg-[initial] border text-[rgb(255_255_255/var(--tw-text-opacity))] flex text-sm h-10 leading-5 w-[400px] m-auto px-3 py-2 rounded-md;
+  --tw-text-opacity: 1;
+}
+
+.let-me-in_btn {
+  @apply items-center bg-[rgb(37_99_235/var(--tw-bg-opacity))] rounded text-[rgb(255_255_255/var(--tw-text-opacity))] inline-flex text-sm font-medium h-10 justify-center leading-5 duration-[0.15s] transition-colors ease-[cubic-bezier(.4,0,0.2,1)] w-[400px] m-auto px-4 py-2;
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+}
+
+  .chatview {
+    @apply flex flex-col justify-center items-center h-screen overflow-hidden bg-dark-grey;
+  }
+
+ 
 
   .chatview {
     @apply flex flex-col duration-300 overflow-hidden relative bg-slate-200
@@ -117,7 +139,7 @@
   }
 
   .form {
-    @apply flex justify-between items-stretch sm:flex-row m-2 bottom-0 left-0 right-0
+    @apply flex justify-between w-full items-stretch sm:flex-row m-2 bottom-0 left-0 right-0
     text-black dark:text-white duration-300;
   }
 
@@ -225,6 +247,26 @@
     @apply transition-[0.4s] duration-[ease]
   }
 
+
+
+/*subscribe_page */
+.main_subscribe_page{
+  @apply border-t-[antiquewhite]  border-t border-solid bg-[#050b19] py-5;
+}
+
+.subscribe-box{
+  @apply flex flex-col w-full  max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white;
+}
+.check_icon{
+  @apply flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400;
+}
+.subscribe_page_btn{
+  @apply flex items-center justify-center  text-white bg-[#2563eb] h-12 w-full hover:bg-[#417cfb]  ;
+  
+}
+.start_now_btn{
+  @apply flex mt-[25px]  items-center justify-center  text-white bg-[#2563eb] h-12 w-full hover:bg-[#417cfb] font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white;
+}
 
   /*pagination*/
   

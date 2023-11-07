@@ -10,6 +10,7 @@ import { MdOutlineNightlight, MdOutlineWbSunny } from 'react-icons/md';
  */
 const DarkMode = (props) => {
   const [darkTheme, setDarkTheme] = useDarkMode();
+  // const ThemeSwitcher = dynamic(() => import('./theme-switcher'))
 
   /**
    * Toggles the dark mode.

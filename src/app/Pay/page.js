@@ -1,6 +1,6 @@
 import React from 'react'
 import Payment from '@/Components/Payment'
-function Pay() {
+function pay() {
   return (
     <div>
       <Payment/>
@@ -8,5 +8,5 @@ function Pay() {
   )
 }
 
-export default Pay
+export default pay
 

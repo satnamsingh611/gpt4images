@@ -1,15 +1,16 @@
 "use client"
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import DarkMode from "../DarkMode";
+import { removeLocalStroage } from "../lib/windowError";
+import { getLocalStroage } from "../lib/windowError";
 import { MdClose, MdMenu } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
-// import Setting from "../Setting";
+import { useRouter,usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
+const DarkMode =dynamic(()=>import('../DarkMode'), { ssr: false })
 
-const Setting = dynamic(() => import("../Setting"), { ssr: false })
-import Modal from "../Modal";
+// const Setting = dynamic(() => import("../Setting"), { ssr: false })
+// import Modal from "../Modal";
 
 const menyLinkStyle = {
   color: "rgb(255 255 255)",
@@ -25,11 +26,12 @@ const menyLinkStyle = {
  */
 const SideBar = () => {
   const [open, setOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useState(false);
 
-  /* navigate **/
-  // const navigate=useNavigate()
-  /** */
+
+  let router = useRouter(); // navigate
+let pathname=usePathname(); // get pathname
+
 
   function handleResize() {
     window.innerWidth <= 720 ? setOpen(false) : setOpen(true);
@@ -51,13 +53,12 @@ const SideBar = () => {
 
 
   const LoginBtn = () => {
-    //  if(!userEmail){
-    //   navigate('/login')
-    //  }else{
-    //   localStorage.removeItem("userData")
-    //   localStorage.removeItem("userToken")
-    //   navigate('/login')
-    //  }
+     if(!userEmail){
+      router.push('/login')
+     }else{
+      removeLocalStroage()
+      router.push('/login')
+     }
   }
 
 
@@ -86,9 +87,9 @@ const SideBar = () => {
               )}
             </span> 
             </div>
-            <div className="menu_button ml-[50px] flex ">
-            <button className="GPT_menus mr-5 " >Create</button>
-            <button className=" GPT_menus px-[20px] ">Find</button>
+            <div className="menu_button ml-[50px] flex">
+            <Link href='/'  className="GPT_menus mr-5 "  style={{background: pathname === '/' ? '#2563eb' : '#808080b8'}}>Create</Link>
+            <Link href='/find' className=" GPT_menus px-[20px]"  style={{background: pathname === '/find' ? '#2563eb' : '#808080b8'}}>Find</Link>
           </div>
           </div>
           
@@ -96,8 +97,8 @@ const SideBar = () => {
 
 
           <div className="pr-[30px] flex gap-[2rem]">
-            <button className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] ">Subscribe</button>
-            <button className="login_btn hover:bg-[#417cfb] transition-[0.25s] " >Logout</button>
+            <Link href='/subscripation' className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] ">Subscribe</Link>
+            <Link href='/login' className="login_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={LoginBtn} >{!getLocalStroage()?"Login":"Log Out"}</Link>
           </div>
         </div>
 
@@ -118,7 +119,7 @@ const SideBar = () => {
               </Link>
             </li>
             <li>
-              <Link href='/find'>
+              <Link href='/pay'>
                 <h1
                   className={`pl-2  ${!open && "hidden "
                     }  text-black`}
@@ -136,13 +137,13 @@ const SideBar = () => {
           </ul>
         </div>
 
-        <Modal
+        {/* <Modal
           title="Setting"
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
         >
           <Setting />
-        </Modal>
+        </Modal> */}
       </section>
     </>
   );

@@ -13,8 +13,8 @@ const Payment = () => {
     const userData = JSON.parse(window.localStorage.getItem('userData'));
     const email = userData && userData.hasOwnProperty('email') ? userData.email : null
     setEmail(email)
-    if(!EmailValidator.validate(email))
-      alert("Wrong email, please relogin")
+    // if(!EmailValidator.validate(email))
+    //   alert("Wrong email, please relogin")
   
 
   },[])

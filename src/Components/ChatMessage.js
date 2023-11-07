@@ -45,18 +45,18 @@ const ChatMessage = (props) => {
       >
         {imageModels.includes(selected) && ai ? (
           <section className="flex flex-col">
-            <div className="message__pic">
+            {/* <div className="message__pic hidden">
           
               <MdComputer />
-            </div>
+            </div> */}
 
             <ImageComp url={text} selected={selected} Time={Time} />
           </section>
         ) : (
        <div className="flex">
-         <div className="message__pic">
-              {ai ===true &&  <MdComputer />}
-            </div>
+         {ai ===true ?<div className="message__pic">
+               <MdComputer />
+            </div>:""}
            <div className="message__wrapper " ref={ref}>
           
               <ReactMarkdown
@@ -125,7 +125,7 @@ const ChatMessage = (props) => {
         
 
         {!ai  && (
-          <div className="message__pic">
+          <div className="message__pic profilepic">
             <Image
               className="rounded-full"
               loading="lazy"

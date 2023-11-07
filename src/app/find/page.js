@@ -4,6 +4,7 @@ function find() {
   return (
     <div>
       <Findpage/>
+      {/* <h1>FindPage</h1> */}
     </div>
   )
 }
