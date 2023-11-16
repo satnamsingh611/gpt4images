@@ -233,9 +233,14 @@
   }
 
   /*find page */
-  .shortbtn{
-    @apply w-full m-auto sm:p-0 sm:bottom-[40px] sm:flex sm:justify-center  flex  justify-center gap-2 items-center py-2 bg-[#e2e8f0] dark:bg-light-grey fixed bottom-[55px] left-0;
+
+  /* sorting  */
+  .sortBtn_sidebar{
+    @apply flex flex-col gap-y-4 h-screen bg-dark-grey p-2 pt-4 relative duration-300;
   }
+  /* .shortbtn{
+    @apply w-full m-auto sm:p-0 sm:bottom-[40px] sm:flex sm:justify-center  flex  justify-center gap-2 items-center py-2 bg-[#e2e8f0] dark:bg-light-grey fixed bottom-[55px] left-0;
+  } */
   .imageLiked{
     @apply text-red-500
   }

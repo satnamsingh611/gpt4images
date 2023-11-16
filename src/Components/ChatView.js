@@ -1,17 +1,16 @@
 "use client";
 import React, { useState, useRef, useEffect, useContext } from "react";
 // import ChatMessage from "./ChatMessage";
-
 import dynamic from "next/dynamic";
 const ChatMessage = dynamic(() => import("../Components/ChatMessage"));
 import { ChatContext } from "./Contex/ChatContext";
 import Thinking from "./Thinking";
-
 import { MdSend } from "react-icons/md";
 import Filter from "bad-words";
-import axios from "axios";
 import modelsManager from "./Utils/ModelManagers";
-
+import { SaveImageAPI } from "./Utils/saveImage";
+import { getLocalStroage } from "./lib/windowError";
+import { useRouter} from "next/navigation";
 /**
  * A chat view component that displays a list of messages and a form for sending new messages.
  */
@@ -21,99 +20,8 @@ const ChatView = () => {
   const [formValue, setFormValue] = useState("");
   const [thinking, setThinking] = useState(false);
   const options = "OpenJourney";
-  // const [selected, setSelected] = useState(options[0]);
   const [messages, addMessage] = useContext(ChatContext);
-  const [aiData, setAiData] = useState();
-
-  /**
-   * Scrolls the chat area to the bottom.
-   */
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const postdata = async (data) => {
-    if (data.ai === true) {
-      setAiData({
-        id: data.id,
-        text: data.text,
-        createdAt: data.createdAt,
-        ai: data.ai,
-        selected: data.selected,
-        value: formValue,
-      });
-    } else {
-      return true;
-    }
-  };
-
-
-  // ----no need-----//
-  // const postaidata = async (data) => {
-  //   try {
-  //     let responce = await axios.post(process.env.Get_Images_OJ + `users`, {
-  //       id: data.id,
-  //       text: data.text,
-  //       createdAt: data.createdAt,
-  //       ai: data.ai,
-  //       value: data.value,
-  //       title: data.value,
-  //       selected: data.selected,
-  //     });
-  //     let res = await responce;
-  //     console.log("res", res);
-
-  //     return res;
-  //   } catch {
-  //     return null;
-  //   }
-  // };
-
-  // shorting like date API
-
-  useEffect(() => {}, []);
-
-  /// like value increase
-  // const Saveimage = async () => {
-  //   let createdDate = new Date().toLocaleString();
-
-  //   try {
-  //     if (!aiData.text) {
-  //       alert("data not found from server");
-  //     }
-  //     if (typeof window !== "undefind") {
-  //       let email = window.localStorage.getItem("userData"); //get user email id from localstorage
-  //       let UserEmail = JSON.parse(email); // jsonparse
-  //       const ImageSaveapi = await axios.post(
-  //         process.env.Get_Images_OJ + "saveImages",
-  //         {
-  //           link_to_image: aiData.text,
-  //           creator: UserEmail.email,
-  //           keywords: aiData.value,
-  //           date: createdDate,
-  //           likes: 0,
-  //         }
-  //       );
-  //       console.log("ImageSaveapi", ImageSaveapi);
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   var selectedbtn = "";
-  //   messages.forEach((items, index) => {
-  //     if (items.selected === "OpenJourney" && index >= 1) {
-  //       selectedbtn = items.selected;
-  //     }
-  //   });
-  //   if (selectedbtn === "OpenJourney") {
-  //     Saveimage();
-  //   }
-
-  //   postaidata(aiData);
-  // }, [aiData]);
+const router=useRouter()
 
   /**
    * Adds a new message to the chat.
@@ -122,6 +30,7 @@ const ChatView = () => {
    * @param {boolean} [ai=false] - Whether the message was sent by an AI or the user.
    */
   const updateMessage = async (newValue, ai = false, selected) => {
+    
     const id = Date.now() + Math.floor(Math.random() * 1000000);
     const newMsg = {
       id: id,
@@ -136,6 +45,20 @@ const ChatView = () => {
 
     postdata(newMsg);
   };
+
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const postdata = async (data) => {
+    if (data.ai === true) {
+      SaveImageAPI({...data,keywords:formValue} )
+    } else {
+      return true;
+    }
+  };
+
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -155,6 +78,15 @@ const ChatView = () => {
     // handler request and response here
     await modelsManager(aiModel, cleanPrompt, updateMessage, setThinking);
   };
+
+  const handleChange=(e)=>{
+    if(!getLocalStroage()){
+      router.push('/login')
+    }
+     setFormValue(e.target.value)
+  }
+
+
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -177,10 +109,10 @@ const ChatView = () => {
     inputRef.current.focus();
   }, []);
 
-  //======================================================
+
 
   return (
-    <div className=" chatview " style={{ height: "calc(100vh - 56px)" }}>
+    <div className=" chatview pt-[65px] " style={{ height: "calc(100vh )" }}>
       <main className="chatview__chatarea">
         {messages.map((message, index) => {
           return (
@@ -197,7 +129,7 @@ const ChatView = () => {
         <span ref={messagesEndRef}></span>
       </main>
       <form className="form" onSubmit={sendMessage}>
-      <p className="OJ_button dark:text-gray-400">OpenJourney</p>
+        <p className="OJ_button dark:text-gray-400">OpenJourney</p>
 
         <div className="flex items-stretch justify-between w-full">
           <textarea
@@ -206,7 +138,7 @@ const ChatView = () => {
             value={formValue}
             aria-label="Search"
             onKeyDown={handleKeyDown}
-            onChange={(e) => setFormValue(e.target.value)}
+            onChange={handleChange}
           />
 
           <button

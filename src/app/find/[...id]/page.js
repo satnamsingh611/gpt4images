@@ -21,7 +21,7 @@ const ImageId = () => {
          userId = userdata.email;
       }
       const response = await axios.get(
-        process.env.Get_Images_OJ + `getImage/${id}?user_id=${userId}`
+        process.env.REACT_APP_GPT5_IMAGE_OJ + `getImage/${id}?user_id=${userId}`
       );
   
 
@@ -51,13 +51,12 @@ const ImageId = () => {
     };
 
   useEffect(() => {
- 
     ImagePramsID();
   }, []);
 
   return (
     <div
-      className=" bg-[#e2e8f0] dark:bg-light-grey"
+      className=" bg-[#e2e8f0] dark:bg-light-grey pt-[60px]"
       style={{ height: "calc(100vh - 56px)" }}
     >
       <div className=" max-w-[1140px] m-auto ">
@@ -73,7 +72,7 @@ const ImageId = () => {
               <p className={` inline-block text-end shadow shadow-black my-2 p-2 rounded ${ImageId.is_user_liked > 0 ? "imageLiked" : ""}`} onClick={() => LikeImage(ImageId.id)}>
                 {" "}
                 <i className="fa-solid fa-heart " />
-                {ImageId.like_count}
+                {ImageId.Likes}
               </p>
             </div>
 

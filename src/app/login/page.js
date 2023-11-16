@@ -17,7 +17,7 @@ const login = () => {
 
     const userData = windowError()===true?localStorage.getItem("userData"):"";
     const userEmail = JSON.parse(userData);
-    console.log(userEmail?.email,"ooooooo")
+
     const email = new FormData(e.target).get("email");
    
 
@@ -29,7 +29,7 @@ const login = () => {
           await magic.auth.loginWithEmailOTP({ email });
 
           const Token = await magic.user.getIdToken();
-          
+        
           windowError()===true ? localStorage.setItem("userData", `{"email":"${email}"}`):"";
           windowError()===true ? localStorage.setItem("userToken", `{"Token":"${Token}"}`):"";
           router.push("/subscripation");

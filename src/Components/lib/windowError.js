@@ -18,11 +18,14 @@ export const getLocalStroage = () => {
     }
 }
 export const removeLocalStroage = () => {
+
     if (typeof window !== 'undefined') {
        window.localStorage.removeItem("userData");
         window.localStorage.removeItem("userToken");
      return true
     } else {
+    console.log("else")
+
         return false
     }
 }

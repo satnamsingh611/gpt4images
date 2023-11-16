@@ -31,7 +31,7 @@ async function OJ(cleanPrompt, updateMessage, aiModel,email) {
   try {
     
     const data = await callOjFromServer(cleanPrompt, email);
-    data && updateMessage(!email?"Log in first":data, true, aiModel);
+    data && updateMessage(data, true, aiModel);
   } catch (e) {
     alert("OJ not working, please try later");
     console.log("OJ error: ", e);

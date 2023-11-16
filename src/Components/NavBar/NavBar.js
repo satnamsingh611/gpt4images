@@ -5,10 +5,9 @@ import { removeLocalStroage } from "../lib/windowError";
 import { getLocalStroage } from "../lib/windowError";
 import { MdClose, MdMenu } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
-import { useRouter,usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
-const DarkMode =dynamic(()=>import('../DarkMode'), { ssr: false })
-
+const DarkMode = dynamic(() => import('../DarkMode'), { ssr: false })
 // const Setting = dynamic(() => import("../Setting"), { ssr: false })
 // import Modal from "../Modal";
 
@@ -30,7 +29,7 @@ const SideBar = () => {
 
 
   let router = useRouter(); // navigate
-let pathname=usePathname(); // get pathname
+  let pathname = usePathname(); // get pathname
 
 
   function handleResize() {
@@ -46,62 +45,51 @@ let pathname=usePathname(); // get pathname
   }, []);
 
   const newLocal = <DarkMode open={open} />;
-
-
-
-
-
-
   const LoginBtn = () => {
-     if(!userEmail){
+    if (!getLocalStroage()) {
+      conso
+     
       router.push('/login')
-     }else{
+    } else {
       removeLocalStroage()
-      router.push('/login')
-     }
+    }
   }
-
-
-
   return (
     <>
       <section
         className={` px-0 py-[8px] ${open ? " w-full " : "w-full h-[57px] sm:bg-black  sm:text-black"
-          } sidebar  bg-black h-[57px] `}
+          } sidebar  fixed top-0 right-0 left-0 bottom-0 z-[1] bg-black h-[57px] `}
       >
         <div className="sidebar__app-bar items-center justify-between">
           <div className={`sidebar__btn-close  pl-[10px] flex items-center`}>
             <div className="fabars_button ">
 
-             <span onClick={() => setOpen(!open)}>
-              {!open ? (
-                <MdMenu
-                  className="sidebar__btn-icon"
-                  style={{ fontSize: "25px" }}
-                ></MdMenu>
-              ) : (
-                <MdClose
-                  className="sidebar__btn-icon"
-                  style={{ fontSize: "25px" }}
-                ></MdClose>
-              )}
-            </span> 
+              <span onClick={() => setOpen(!open)}>
+                {!open ? (
+                  <MdMenu
+                    className="sidebar__btn-icon"
+                    style={{ fontSize: "25px" }}
+                  ></MdMenu>
+                ) : (
+                  <MdClose
+                    className="sidebar__btn-icon"
+                    style={{ fontSize: "25px" }}
+                  ></MdClose>
+                )}
+              </span>
             </div>
             <div className="menu_button ml-[50px] flex">
-            <Link href='/'  className="GPT_menus mr-5 "  style={{background: pathname === '/' ? '#2563eb' : '#808080b8'}}>Create</Link>
-            <Link href='/find' className=" GPT_menus px-[20px]"  style={{background: pathname === '/find' ? '#2563eb' : '#808080b8'}}>Find</Link>
+              <Link href='/' className="GPT_menus mr-5 " style={{ background: pathname === '/' ? '#2563eb' : '#808080b8' }}>Create</Link>
+              <Link href='/find' className=" GPT_menus px-[20px]" style={{ background: pathname === '/find' ? '#2563eb' : '#808080b8' }}>Find</Link>
+            </div>
           </div>
-          </div>
-          
-         
-
-
           <div className="pr-[30px] flex gap-[2rem]">
             <Link href='/subscripation' className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] ">Subscribe</Link>
-            <Link href='/login' className="login_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={LoginBtn} >{!getLocalStroage()?"Login":"Log Out"}</Link>
+            <Link href='/login' className="login_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={LoginBtn} suppressHydrationWarning={true}>
+            {!getLocalStroage()? "Login" :"Log Out"}
+            </Link>
           </div>
         </div>
-
         <div className="nav z-10 absolute top-[58px] ">
           <ul
             className="  dropdown-list  font-Rubik duration-200"
