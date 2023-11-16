@@ -8,7 +8,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useRouter } from "next/navigation";
 import { getLocalStroage } from "../lib/windowError";
-import { LikeImageApi } from "../Utils/likeImageApi";
 // import Spinner from "../NewComponents/Spinner";
 // const imageModels = ["DALL·E", "OpenJourney"];
 const findpage = () => {
@@ -67,12 +66,21 @@ const findpage = () => {
 
   // like Image API
   const LikeImage = async (id) => {
-    LikeImageApi(id)
+    if (!id) {
+      console.log("Id not found for like")
+    }else{
+      const response = await axios.put(process?.env?.REACT_APP_GPT5_IMAGE_OJ + `likeImages/` + `${id}`, {
+        Like_user: getLocalStroage(),
+        createdAt: Date.now(),
+      });
       GetImageData();
+      console.log("liker", response.data)
+    }
+    
   };
 
   /// Go to singleImage page
-  const ImageIdGet = (id) => {
+  const idGet = (id) => {
     navigate.push(`/find/${id}`);
   };
   // pagination fc
@@ -111,7 +119,7 @@ const findpage = () => {
                       >
                         <div
                           className=" object-bottom object-cover rounded"
-                          onClick={() => ImageIdGet(items.imageId)}
+                          onClick={() => LikeImage(items.id)}
                         >
 
                           <LazyLoadImage
@@ -126,7 +134,7 @@ const findpage = () => {
                         <div className=" left-[10px] leading-[18px] pt-[10px] absolute bottom-[20px]">
                           <div className="likes_date">
                             <p
-                              onClick={() => LikeImage(items.imageId, index)}
+                              onClick={() => LikeImage(items.id, index)}
                               className={`inline-block pl-2 ${items?.is_Liked === true ? "imageLiked" : "text-gray-400"
                                 }`}
                             >
@@ -156,7 +164,7 @@ const findpage = () => {
                       >
                         <div
                           className=" object-bottom object-cover rounded"
-                          onClick={() => ImageIdGet(items.imageId)}
+                          onClick={() => idGet(items.id)}
                         >
 
                           <LazyLoadImage
