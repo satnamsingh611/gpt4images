@@ -19,7 +19,7 @@ export const FromInput = ({ keywords, setKeywords,handleSearch }) => {
     const handleInputChange = (e) => {
         const value = e.target.value;
         setKeywords(value);
-        if (value.length > 2) {
+        if (value.length >1) {
           // Filter suggestions based on the input value
           const filteredSuggestions = suggestionStore?.filter((suggestion) =>
             suggestion.toLowerCase().includes(value.toLowerCase())
