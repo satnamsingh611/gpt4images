@@ -56,27 +56,27 @@ const ImageId = () => {
 
   return (
     <div
-      className=" bg-[#e2e8f0] dark:bg-light-grey pt-[60px]"
-      style={{ height: "calc(100vh - 56px)" }}
+      className=" bg-[#e2e8f0] h-[100vh] dark:bg-light-grey pt-[60px]"
+     
     >
       <div className=" max-w-[1140px] m-auto ">
         <div className="main_singleImage flex gap-[20px] pt-3">
           <div className="main_singleImage_Image_box">
             <img className="rounded" src={ImageId.link_to_image} alt="" />
           </div>
-          <div className="imageinfo  ">
+          <div className="imageinfo  w-[50%]">
             <div className="flex justify-between items-center">
               <p>
                 <b>OpenJourney</b>
               </p>
-              <p className={` inline-block text-end shadow shadow-black my-2 p-2 rounded ${ImageId.is_user_liked > 0 ? "imageLiked" : ""}`} onClick={() => LikeImage(ImageId.id)}>
+              <div className={` inline-block text-end shadow shadow-black my-2 p-2 rounded ${ImageId.is_Liked===true ? "imageLiked" : ""}`} onClick={() => LikeImage(ImageId.id)}>
                 {" "}
                 <i className="fa-solid fa-heart " />
                 {ImageId.Likes}
-              </p>
+              </div>
             </div>
 
-            <div className=" shadow shadow-black rounded w-[300px] h-[300px] p-3 flex flex-col justify-between items-center">
+            <div className=" shadow shadow-black rounded w-[100%]  p-3 flex flex-col justify-between items-center">
               <div className="flex gap-2">
                 <p>
                   <b>{ImageId.keywords}</b>

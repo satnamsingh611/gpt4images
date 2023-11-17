@@ -236,7 +236,7 @@
 
   /* sorting  */
   .sortBtn_sidebar{
-    @apply flex flex-col gap-y-4 h-screen bg-dark-grey p-2 pt-4 relative duration-300;
+    @apply flex flex-col gap-y-4 h-screen bg-dark-grey p-2 pt-4 relative rounded ;
   }
   /* .shortbtn{
     @apply w-full m-auto sm:p-0 sm:bottom-[40px] sm:flex sm:justify-center  flex  justify-center gap-2 items-center py-2 bg-[#e2e8f0] dark:bg-light-grey fixed bottom-[55px] left-0;
@@ -290,7 +290,12 @@
   }
   /* //spinener */
   
-
+ /* inputsFields */
+ .suggestions-list {
+  @apply max-h-[150px] overflow-y-auto pl-0 bg-white;
+  /* Define your preferred maximum height */
+  list-style: none;
+}
   
 }
 

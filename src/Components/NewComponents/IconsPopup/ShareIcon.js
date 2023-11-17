@@ -19,7 +19,7 @@ const SharePopup = (props) => {
         <div className="">
           <p className="p-1 border border-black">
             It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point{" "}
+            the readable content of a page when looking at its layout. The point
           </p>
           <div className="my-3">
             <input type="radio" />

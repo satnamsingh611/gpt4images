@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -7,7 +7,10 @@ import SortBtn from "../NewComponents/sortBtn";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useRouter } from "next/navigation";
+import { ImageContext } from "../Contex/ChatContext";
 import { getLocalStroage } from "../lib/windowError";
+
+
 // import Spinner from "../NewComponents/Spinner";
 // const imageModels = ["DALL·E", "OpenJourney"];
 const findpage = () => {
@@ -19,12 +22,14 @@ const findpage = () => {
   const [totalData, setTotalData] = useState();
   const [paginationNum, setPaginationNum] = useState();
 
-  const [sortLikes, setSortLikes] = useState('')
-  const [sortDate, setSortDate] = useState('')
-  const [is_Liked, stIs_liked] = useState([])
+  // const [sortDate, setSortDate] = useState('')
   const [spinner, setSpinner] = useState(false);
-  // ======================states==========================//
 
+  const { userImages, setUserImages } = useContext(ImageContext);
+
+
+  // ======================states==========================//
+console.log(sortdata,"sortdata")
 
   // =======spinner========//
   useEffect(() => {
@@ -45,6 +50,7 @@ const findpage = () => {
       console.log(response?.data?.currentPageData, "ppppppp")
       setTotalData(response?.data?.totalLength);
       setGetImg(response?.data?.currentPageData);
+      setUserImages(response?.data?.currentPageData); // Image contex
       setSortToggle(false);
     } catch (error) {
       console.error(error); // Handle the error
@@ -66,21 +72,24 @@ const findpage = () => {
 
   // like Image API
   const LikeImage = async (id) => {
-    if (!id) {
-      console.log("Id not found for like")
-    }else{
+   
+    try {
       const response = await axios.put(process?.env?.REACT_APP_GPT5_IMAGE_OJ + `likeImages/` + `${id}`, {
         Like_user: getLocalStroage(),
         createdAt: Date.now(),
       });
       GetImageData();
       console.log("liker", response.data)
+
+    } catch (error) {
+      navigate.push(`/login`);
+      console.log(error.message, "like image")
     }
-    
+
   };
 
   /// Go to singleImage page
-  const idGet = (id) => {
+  const ImageIdGet = (id) => {
     navigate.push(`/find/${id}`);
   };
   // pagination fc
@@ -101,10 +110,9 @@ const findpage = () => {
               totalData={totalData}
               getImg={getImg}
               setSortData={setSortData}
-              setSortLikes={setSortLikes}
-              sortLikes={sortLikes}
-              setSortDate={setSortDate}
-              sortDate={sortDate}
+         
+              // setSortDate={setSortDate}
+              // sortDate={sortDate}
             />
           </div>
           <div className="sm:pb-[83px]  getimg-box flex-wrap flex justify-end gap-[23px]   ">
@@ -119,7 +127,7 @@ const findpage = () => {
                       >
                         <div
                           className=" object-bottom object-cover rounded"
-                          onClick={() => LikeImage(items.id)}
+                          onClick={() => ImageIdGet(items.id)}
                         >
 
                           <LazyLoadImage
@@ -133,7 +141,7 @@ const findpage = () => {
 
                         <div className=" left-[10px] leading-[18px] pt-[10px] absolute bottom-[20px]">
                           <div className="likes_date">
-                            <p
+                            <div
                               onClick={() => LikeImage(items.id, index)}
                               className={`inline-block pl-2 ${items?.is_Liked === true ? "imageLiked" : "text-gray-400"
                                 }`}
@@ -145,7 +153,7 @@ const findpage = () => {
                                 <i className={`fa-solid fa-heart `}></i>
                                 {items.Likes == 0 ? "" : items.Likes}{" "}
                               </span>
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -164,7 +172,7 @@ const findpage = () => {
                       >
                         <div
                           className=" object-bottom object-cover rounded"
-                          onClick={() => idGet(items.id)}
+                          onClick={() => ImageIdGet(items.id)}
                         >
 
                           <LazyLoadImage
@@ -178,7 +186,7 @@ const findpage = () => {
 
                         <div className=" left-[10px] leading-[18px] pt-[10px] absolute bottom-[20px]">
                           <div className="likes_date">
-                            <p
+                            <div
                               onClick={() => LikeImage(items.id, index)}
                               className={`inline-block pl-2 ${items?.is_Liked === true ? "imageLiked" : "text-gray-400"
                                 }`}
@@ -190,7 +198,7 @@ const findpage = () => {
                                 <i className={`fa-solid fa-heart `}></i>
                                 {items.Likes == 0 ? "" : items.Likes}{" "}
                               </span>
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>

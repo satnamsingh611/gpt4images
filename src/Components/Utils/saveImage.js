@@ -15,7 +15,7 @@ console.log(createdDate,"createdDate")
         const ImageSaveapi = await axios.post(
             process.env.REACT_APP_GPT5_IMAGE_OJ + "saveImages",
             {
-                imageId:aiData?.id,
+                id:aiData?.id,
                 link_to_image: aiData?.text,
                 creator:userid,
                 keywords: aiData?.keywords,

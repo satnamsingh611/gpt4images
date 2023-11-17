@@ -6,7 +6,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CS
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 import { ChatContextProvider } from "@/Components/Contex/ChatContext";
-
+import { ImageContextProvider } from "@/Components/Contex/ChatContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -41,9 +41,12 @@ export default function RootLayout({ children }) {
       <body>
         <div className={inter.className}>
           <ChatContextProvider>
-            <NavBar />
+            <ImageContextProvider>
 
-            {children}
+              <NavBar />
+
+              {children}
+            </ImageContextProvider>
           </ChatContextProvider>
         </div>
       </body>

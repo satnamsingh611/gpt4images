@@ -1,51 +1,102 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import {FromInput} from './inputsField'
+import { FromInput } from './inputsField'
 import axios from "axios";
 import { TwitterIcon, TwitterShareButton } from "react-share";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
 import { faPlus } from "@fortawesome/free-solid-svg-icons"; // import the icons you need
-const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggle, setSortDate, sortDate, setSortLikes, sortLikes }) => {
+const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggle }) => {
 
-  const [includesToggle, setIncludesToggle] = useState(false);
-  const [excludesToggle, setExcludesToggle] = useState(false);
-  const [sortvalue, setSortvalue] = useState(""); // exclude include inter value
+  const [Sorting, setSorting] = useState('')
+  const [keywords, setKeywords] = useState('');
+  console.log(keywords,"keywords")
+
+
+
+
   const [exIn, setExIn] = useState(false);
 
+  const handleChange = async (e) => {
+    let value = e.target.value;
 
-  const handleChange = (e) => {
-    let value = e.target.value
-    if (value === 'newest' || value === 'oldest') {
+    switch (value) {
+      case 'newest':
+      case 'oldest':
+        setSorting(value);
+        console.log(value, "Date");
 
-      setSortDate(value)
-      console.log(value, "Date")
+        const sortedByDate = [...getImg].sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          setSortToggle(true);
+          return value === "newest" ? dateA - dateB : dateB - dateA;
+        });
 
-      const sortedArray = [...getImg].sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        setSortToggle(true)
-        return value === "newest" ? dateA - dateB : dateB - dateA;
+        console.log(sortedByDate, "sortedArrayDate");
+        setSortData(sortedByDate);
+        break;
 
-      });
-      console.log(sortedArray, "sortedArrayDate")
-      setSortData(sortedArray);
+      case 'least':
+      case 'most':
+       
+        setSorting(value);
 
-    } else if (value === 'least' || value === 'most') {
-      console.log(sortDate, "likes")
-      setSortLikes(value)
+        const sortedByLikes = [...getImg].sort((a, b) => {
+          setSortToggle(true);
+          return value === "least" ? a.Likes - b.Likes : b.Likes - a.Likes;
+        });
 
-      const sortedArray = [...getImg].sort((a, b) => {
-        setSortToggle(true)
-        return value === "least" ? a.Likes - b.Likes : b.Likes - a.Likes;;
-      });
-      console.log(sortedArray, "sortedArrayLikes")
-      setSortData(sortedArray);
-    } else {
-      return true
+        console.log(sortedByLikes, "sortedArrayLikes");
+        setSortData(sortedByLikes);
+        break;
+
+      case 'exclude':
+        setSorting('exclude')
+        try {
+          const response = await axios.get(process.env.REACT_APP_GPT5_IMAGE_OJ + 'exclude/' + `${keywords}`);
+          setSortData(response.data);
+          setSortToggle(true);
+          setSorting('')
+          console.log(response.data,"exclude")
+        } catch (error) {
+          console.log(error.message, "sorting exclude");
+        }
+        break;
+
+      case 'include':
+        setSorting('include')
+        try {
+          const response = await axios.get(process.env.REACT_APP_GPT5_IMAGE_OJ + 'include/' + `${keywords}`);
+          setSortData(response.data);
+          setSortToggle(true);
+          setSorting('')
+           console.log(response.data,"incl")
+        } catch (error) {
+          console.log(error.message, "sorting include");
+        }
+        break;
+
+      default:
+        break;
     }
+  };
 
-  }
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log(Sorting, "Sorting");
+    if (Sorting === 'excludewords') {
+      setKeywords('');
+      setSortToggle(true);
+      handleChange({ target: { value: 'exclude' } });
+    } else if (Sorting === 'includewords') {
+      setKeywords('');
+      setSortToggle(true);
+      handleChange({ target: { value: 'include' } });
+    
+    }
+  };
+
 
   return (
     <>
@@ -55,9 +106,25 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
           <h4 className="text-center border-b border-white leading-[40px]">
             <strong className="text-grey  dark:text-white text-white text-center">Sorting Image</strong>{" "}
           </h4>
+          <div className="sorting_include_exclude">
+          <div className='radio_buttons py-2 text-white'>
+                    <input type="radio" name='sorting' value="excludewords" onChange={(e) => setSorting(e.target.value)} />Excludes {''}
+                    <input type="radio" name='sorting' value="includewords" onChange={(e) => setSorting(e.target.value)} />Includes
+                </div>
+            <FromInput
+              keywords={keywords}
+              setKeywords={setKeywords}
+              setSorting={setSorting}
+              sorting={Sorting}
+              setSortToggle={setSortToggle}
+            
+              handleSearch={handleSearch}
+              
+            />
+          </div>
           <div className="relative  ">
-            <p className="text-white"><span>(1)</span> {''} sorting with Likes</p>
-            <select className="w-[133px] h-[38px] rounded" value={sortLikes} onChange={(e) => handleChange(e)}>
+            <div className="text-white"><span>(1)</span> {''} Sorting with Likes</div>
+            <select className="w-[240px] h-[38px] rounded" value={Sorting} onChange={(e) => handleChange(e)}>
 
               <option>
                 Likes
@@ -82,8 +149,8 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
           </div>
           {/* // date sorting */}
           <div className="relative">
-            <p className="text-white"> <span>(2)</span> sorting with Date</p>
-            <select className="w-[133px] h-[38px] rounded" value={sortDate} onChange={handleChange}>
+            <div className="text-white"> <span>(2)</span> Sorting with Date</div>
+            <select className="w-[240px] h-[38px] rounded" value={Sorting} onChange={handleChange}>
               <option>
                 Date
               </option>
@@ -107,24 +174,6 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
           </div>
 
 
-
-          <div className="sorting_include_exclude">
-            
-            
-<FromInput/>
-            
-          </div>
-
-          {/*Search Exclude Include words*/}
-
-          <div className="sortbtnexclude-include sm:block  hidden ">
-            <button
-              className="  bg-[#060b49] hover:bg-[#2b274c] text-white font-bold py-2 px-4 rounded"
-              onClick={() => setExIn(!exIn)}
-            >
-              Search
-            </button>
-          </div>
 
           {/*sm mobile div*/}
 
@@ -182,66 +231,7 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
             className={`sm:hidden  excludewords`}
 
           >
-            {/* <button
-             
-              className="flex items-center   bg-[#060b49] hover:bg-[#2b274c] text-white font-bold py-2 px-4 rounded"
-            >
-              Include Words
-            </button> */}
-
-            {/* <div
-              className="bg-[#060b49]  shadow w-[33%] absolute bottom-[53px] rounded top-[-74px] right-0 p-[12px] left-0 m-auto"
-              style={{ display: !includesToggle ? "none" : "block" }}
-             >
-              <div className="include_input  border  rounded pt-1 px-1 shadow bg-white relative ">
-                <input
-                  type="text"
-                  placeholder="Includes Words"
-                  className="w-full outline-none bg-white h-[34px] "
-                  onChange={(e) => setSortvalue(e.target.value)}
-                />{" "}
-                <span
-                  className="cursor-pointer absolute  right-[10px] top-[10px]"
-                  onClick={() => sortData("include")}
-                >
-                  <FontAwesomeIcon
-                    style={{ fontSize: "16px" }}
-                    icon={faPlus}
-                  ></FontAwesomeIcon>
-                </span>
-              </div>
-            </div> */}
-            {/*------------*/}
-            {/* <div >
-              <button
-                
-                className=" flex items-center bg-[#060b49] hover:bg-[#2b274c] text-white font-bold py-2 px-4 rounded"
-              >
-                Exclude Words
-              </button>
-
-              {excludesToggle && (
-                <div className="bg-[#060b49]  shadow w-[33%] absolute bottom-[53px] rounded top-[-74px] right-0 p-[12px] left-0 m-auto">
-                  <div className="exclude_input  border  rounded pt-1 px-1 shadow bg-white relative ">
-                    <input
-                      type="text"
-                      placeholder="Excludes Words"
-                      className="w-full outline-none bg-white h-[34px] "
-                      onChange={(e) => setSortvalue(e.target.value)}
-                    />{" "}
-                    <span
-                      className="cursor-pointer absolute  right-[10px] top-[10px]"
-                      onClick={() => sortData("exclude")}
-                    >
-                      <FontAwesomeIcon
-                        style={{ fontSize: "16px" }}
-                        icon={faPlus}
-                      ></FontAwesomeIcon>
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div> */}
+         
 
           </div>
         </div>
