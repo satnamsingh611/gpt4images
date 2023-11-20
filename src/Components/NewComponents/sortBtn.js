@@ -10,7 +10,7 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
 
   const [Sorting, setSorting] = useState('')
   const [keywords, setKeywords] = useState('');
-  console.log(keywords,"keywords")
+  console.log(Sorting,"Sorting")
 
 
 
@@ -19,21 +19,19 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
 
   const handleChange = async (e) => {
     let value = e.target.value;
-
+console.log(value,"value")
     switch (value) {
       case 'newest':
       case 'oldest':
         setSorting(value);
-        console.log(value, "Date");
-
-        const sortedByDate = [...getImg].sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
+          const sortedByDate = [...getImg].sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
           setSortToggle(true);
-          return value === "newest" ? dateA - dateB : dateB - dateA;
+          return value === "newest" ?a.createdAt - b.createdAt :b.createdAt - a.createdAt;
         });
 
-        console.log(sortedByDate, "sortedArrayDate");
+  
         setSortData(sortedByDate);
         break;
 
@@ -53,28 +51,13 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
 
       case 'exclude':
         setSorting('exclude')
-        try {
-          const response = await axios.get(process.env.REACT_APP_GPT5_IMAGE_OJ + 'exclude/' + `${keywords}`);
-          setSortData(response.data);
-          setSortToggle(true);
-          setSorting('')
-          console.log(response.data,"exclude")
-        } catch (error) {
-          console.log(error.message, "sorting exclude");
-        }
+      
+      handleSearch()
         break;
 
       case 'include':
         setSorting('include')
-        try {
-          const response = await axios.get(process.env.REACT_APP_GPT5_IMAGE_OJ + 'include/' + `${keywords}`);
-          setSortData(response.data);
-          setSortToggle(true);
-          setSorting('')
-           console.log(response.data,"incl")
-        } catch (error) {
-          console.log(error.message, "sorting include");
-        }
+        handleSearch()
         break;
 
       default:
@@ -82,18 +65,34 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async(e) => {
     e.preventDefault();
-    console.log(Sorting, "Sorting");
-    if (Sorting === 'excludewords') {
+
+    if (Sorting === 'exclude') {
       setKeywords('');
       setSortToggle(true);
-      handleChange({ target: { value: 'exclude' } });
-    } else if (Sorting === 'includewords') {
-      setKeywords('');
-      setSortToggle(true);
-      handleChange({ target: { value: 'include' } });
+      try {
+        const response = await axios.get(process.env.REACT_APP_GPT5_IMAGE_OJ + 'exclude/' + `${keywords}`);
+        setSortData(response.data);
+        setSortToggle(true);
+        console.log(response.data,"exclude")
+      } catch (error) {
+        console.log(error.message, "sorting exclude");
+      }
+    } else if (Sorting === 'include'){
+      
+      try {
+        const response = await axios.get(process.env.REACT_APP_GPT5_IMAGE_OJ + 'include/' + `${keywords}`);
+        setSortData(response.data);
+        setSortToggle(true);
+         console.log(response.data,"incl")
+         setKeywords('');
+      } catch (error) {
+        console.log(error.message, "sorting include");
+      }
     
+    }else{
+      console.log("select sorting option")
     }
   };
 
@@ -108,8 +107,8 @@ const SortBtn = ({ handlePageClick, totalData, setSortData, getImg, setSortToggl
           </h4>
           <div className="sorting_include_exclude">
           <div className='radio_buttons py-2 text-white'>
-                    <input type="radio" name='sorting' value="excludewords" onChange={(e) => setSorting(e.target.value)} />Excludes {''}
-                    <input type="radio" name='sorting' value="includewords" onChange={(e) => setSorting(e.target.value)} />Includes
+                    <input type="radio" name='sorting' value="exclude" onChange={(e) => setSorting(e.target.value)} />Excludes {''}
+                    <input type="radio" name='sorting' value="include" onChange={(e) => setSorting(e.target.value)} />Includes
                 </div>
             <FromInput
               keywords={keywords}

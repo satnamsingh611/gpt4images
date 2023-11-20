@@ -19,7 +19,7 @@ export const FromInput = ({ keywords, setKeywords,handleSearch }) => {
     const handleInputChange = (e) => {
         const value = e.target.value;
         setKeywords(value);
-        if (value.length >1) {
+        if (value.length >=1) {
           // Filter suggestions based on the input value
           const filteredSuggestions = suggestionStore?.filter((suggestion) =>
             suggestion.toLowerCase().includes(value.toLowerCase())
@@ -43,7 +43,7 @@ export const FromInput = ({ keywords, setKeywords,handleSearch }) => {
     return (
         <div>
             <form className='text-white'>
-                <input type="text" placeholder="include" value={keywords} onChange={handleInputChange} className=' w-[160px] p-2 rounded-sm text-black outline-inherit' />
+                <input type="text" placeholder="include" value={keywords} onChange={handleInputChange} className='p-2 rounded-sm text-black outline-inherit' />
                 <button type="submit" className='p-2 rounded-sm bg-gray-500 ' onClick={handleSearch}  >Search</button>
             </form>
 
